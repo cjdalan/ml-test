@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Prediction application</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+</head>
+<body>
+	<div class="container">
+		<div class="col-sm-10 col-sm-offset-1">
+			<div class="panel panel-default">
+				<div class="panel-heading">Predict</div>
+				<div class="panel-body text-center">
+				{% if result %}
+					<h1>Will come to work</h1>
+				{% else %}
+					<h1>Will not come to work</h1>
+				{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Prediction application</title>
+
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+</head>
+<body>
+	<div class="container">
+		<div class="col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<table class="table" id="recordsTbl"></table>
+				</div>
+				<div class="panel-footer">
+					<a class="btn btn-primary" href="/records/create">Create</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script>
+		$(function() {
+			var recordsTbl;
+
+			function getRecords() {
+				return $.ajax({
+					url: "/api/records",
+					method: "GET"
+				});
+			}
+
+			function init() {
+				recordsTbl = $("#recordsTbl").DataTable({
+					data: [],
+					columns: [
+						{ 
+							title: 'Week day', 
+							data: 'weekday',
+							render: function(data) {
+								switch (data) {
+									case 1:
+										return "Monday";
+									case 2:
+										return "Tuesday";
+									case 3:
+										return "Wednesday";
+									case 4:
+										return "Thurdsday";
+									case 5:
+										return "Friday";
+								}
+							} 
+						},
+						{ title: 'Month day', data: 'monthday' },
+						{ 
+							title: 'No work', 
+							data: 'special',
+							render: function(data) {
+								return (data === 1) ? "True" : "False"
+							} 
+						},
+						{ 
+							title: "Result",
+							data: "result",
+							render: function(data) {
+								return (data === 1) ? "True" : "False"
+							}
+						}
+					]
+				});
+
+				getRecords()
+					.then(function(data) {
+						recordsTbl.clear()
+							.rows.add(data)
+							.draw();
+					});
+			}
+
+			init();
+		});
+	</script>
+
+</body>
+</html>
